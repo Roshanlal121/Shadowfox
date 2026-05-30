@@ -10,7 +10,6 @@ This repository contains all the tasks, projects, and learning activities comple
 📌 About the Internship
 
 The internship provided hands-on experience in:
-
 Data Analysis
 Data Visualization
 Machine Learning
@@ -31,12 +30,10 @@ Tools
 Git
 GitHub
 VS Code
-
 Concepts
 Data Cleaning
 Exploratory Data Analysis (EDA)
 Data Visualization
-
 📂 Internship Tasks
 Beginner Task – Visualization Library Documentation
 
@@ -50,7 +47,6 @@ Python Programming
 Version Control using Git & GitHub
 Documentation Writing
 🎯 Objective
-
 The purpose of this repository is to:
 
 Showcase my internship work
