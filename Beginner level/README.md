@@ -5,11 +5,13 @@ This repository contains all the projects, tasks, and learning work completed du
 🚀 ShadowFox Data Science Internship
 
 Welcome to my internship repository for the Data Science Internship at ShadowFox.
+
 This repository contains all the tasks, projects, and learning activities completed during the internship.
 
 📌 About the Internship
 
 The internship provided hands-on experience in:
+
 Data Analysis
 Data Visualization
 Machine Learning
@@ -25,7 +27,6 @@ Python
 Pandas
 NumPy
 Matplotlib
-
 Tools
 Git
 GitHub
@@ -47,6 +48,7 @@ Python Programming
 Version Control using Git & GitHub
 Documentation Writing
 🎯 Objective
+
 The purpose of this repository is to:
 
 Showcase my internship work
