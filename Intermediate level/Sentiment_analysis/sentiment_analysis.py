@@ -1,33 +1,25 @@
+import os
 import pandas as pd
 import matplotlib.pyplot as plt
 import seaborn as sns
 from textblob import TextBlob
 from wordcloud import WordCloud
-import os
 
 # =========================
-# LOAD DATASET
+# CREATE REQUIRED FOLDERS
 # =========================
 
-FILE_NAME = "X data.csv"
+os.makedirs("graphs", exist_ok=True)
+os.makedirs("output", exist_ok=True)
 
-try:
-    df = pd.read_csv(FILE_NAME)
-except FileNotFoundError:
-    print("❌ ERROR: CSV file not found!")
-    print("👉 Make sure 'X data.csv' is in the SAME folder as this script")
-    exit()
+# =========================
+# LOAD DATASET (ZIP FILE)
+# =========================
 
-print("\n✅ Dataset Loaded Successfully\n")
+df = pd.read_csv("data/X data.zip", compression='zip')
+
+print("\nDataset Preview:\n")
 print(df.head())
-
-# =========================
-# CHECK COLUMN
-# =========================
-
-if "clean_text" not in df.columns:
-    print("❌ ERROR: 'clean_text' column missing in dataset")
-    exit()
 
 # =========================
 # SENTIMENT FUNCTION
@@ -44,23 +36,16 @@ def get_sentiment(text):
         return "Neutral"
 
 # =========================
-# APPLY SENTIMENT
+# APPLY SENTIMENT ANALYSIS
 # =========================
 
 df["Sentiment"] = df["clean_text"].apply(get_sentiment)
 
 # =========================
-# CREATE FOLDERS
+# SENTIMENT COUNTS
 # =========================
 
-os.makedirs("graphs", exist_ok=True)
-os.makedirs("output", exist_ok=True)
-
-# =========================
-# SENTIMENT COUNT
-# =========================
-
-print("\n📊 Sentiment Counts:\n")
+print("\nSentiment Counts:\n")
 print(df["Sentiment"].value_counts())
 
 # =========================
@@ -70,6 +55,7 @@ print(df["Sentiment"].value_counts())
 plt.figure(figsize=(6,5))
 sns.countplot(x="Sentiment", data=df)
 plt.title("Sentiment Distribution")
+
 plt.savefig("graphs/bar_graph.png")
 plt.show()
 
@@ -77,52 +63,55 @@ plt.show()
 # PIE CHART
 # =========================
 
-counts = df["Sentiment"].value_counts()
+sentiment_counts = df["Sentiment"].value_counts()
 
-plt.figure(figsize=(6,6))
-plt.pie(counts, labels=counts.index, autopct="%1.1f%%")
+plt.figure(figsize=(7,7))
+plt.pie(sentiment_counts, labels=sentiment_counts.index, autopct='%1.1f%%')
 plt.title("Sentiment Percentage")
+
 plt.savefig("graphs/pie_chart.png")
 plt.show()
 
 # =========================
-# WORDCLOUD - POSITIVE
+# POSITIVE WORD CLOUD
 # =========================
 
-positive_text = " ".join(df[df["Sentiment"] == "Positive"]["clean_text"].astype(str))
+positive_text = " ".join(df[df["Sentiment"] == "Positive"]["clean_text"])
 
 if positive_text.strip():
-    wc = WordCloud(width=800, height=400, background_color="white").generate(positive_text)
+    wordcloud = WordCloud(width=800, height=400, background_color='white').generate(positive_text)
 
     plt.figure(figsize=(10,5))
-    plt.imshow(wc)
+    plt.imshow(wordcloud)
     plt.axis("off")
-    plt.title("Positive WordCloud")
+    plt.title("Positive Tweets WordCloud")
+
     plt.savefig("graphs/positive_wordcloud.png")
     plt.show()
 
 # =========================
-# WORDCLOUD - NEGATIVE
+# NEGATIVE WORD CLOUD
 # =========================
 
-negative_text = " ".join(df[df["Sentiment"] == "Negative"]["clean_text"].astype(str))
+negative_text = " ".join(df[df["Sentiment"] == "Negative"]["clean_text"])
 
 if negative_text.strip():
-    wc = WordCloud(width=800, height=400, background_color="white").generate(negative_text)
+    wordcloud = WordCloud(width=800, height=400, background_color='white').generate(negative_text)
 
     plt.figure(figsize=(10,5))
-    plt.imshow(wc)
+    plt.imshow(wordcloud)
     plt.axis("off")
-    plt.title("Negative WordCloud")
+    plt.title("Negative Tweets WordCloud")
+
     plt.savefig("graphs/negative_wordcloud.png")
     plt.show()
 
 # =========================
-# SAVE OUTPUT
+# SAVE OUTPUT CSV
 # =========================
 
 df.to_csv("output/sentiment_output.csv", index=False)
 
-print("\n🎉 PROJECT COMPLETED SUCCESSFULLY!")
-print("📁 Check 'graphs/' folder")
-print("📁 Check 'output/' folder")
+print("\nProject Completed Successfully ")
+print("Graphs saved inside 'graphs' folder")
+print("CSV saved inside 'output' folder")
